@@ -32,8 +32,27 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
-  final _items = [];
+  final _items = <Todo>[];
   final _todoController = TextEditingController();
+
+  void _addTodo(Todo todo) {
+    setState(() {
+      _items.add(todo);
+      _todoController.text = '';
+    });
+  }
+
+  void _deleteTodo(Todo todo) {
+    setState(() {
+      _items.remove(todo);
+    });
+  }
+
+  void toggleTodo(Todo todo) {
+    setState(() {
+      todo.isDone = !todo.isDone;
+    });
+  }
 
   @override
   void dispose() {
@@ -48,33 +67,79 @@ class _TodoListPageState extends State<TodoListPage> {
           title: const Text('남은 할  일'),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(13),
           child: Column(
             children: [
               Row(
                 children: [
-                  const Expanded(
-                    child: TextField(),
+                  Expanded(
+                    child: TextField(
+                      controller: _todoController,
+                    ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: (() => _addTodo(
+                          Todo(_todoController.text),
+                        )),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: Colors.amber,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                     child: const Text(
-                      'add',
-                      style: TextStyle(color: Colors.white),
+                      '추가하기',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
               ),
               Expanded(
                 child: ListView(
-                  children: const [],
+                  children:
+                      _items.map((todo) => _buildItemWidget(todo)).toList(),
                 ),
               ),
+              // Expanded(
+              //   child: TextField(
+              //     controller: _todoController,
+              //   ),
+              // ),
+              // ElevatedButton(
+              //   onPressed: (() => _addTodo(
+              //         Todo(_todoController.text),
+              //       )),
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: Colors.green,
+              //   ),
+              //   child: const Text(
+              //     '추가하기',
+              //     style: TextStyle(color: Colors.white10),
+              //   ),
+              // ),
             ],
           ),
         ));
+  }
+
+  Widget _buildItemWidget(Todo todo) {
+    return CheckboxListTile(
+      onTap: () => toggleTodo(todo),
+      trailing: IconButton(
+        icon: const Icon(Icons.delete),
+        onPressed: ((() => _deleteTodo(todo))),
+      ),
+      title: Text(
+        todo.title,
+        style: todo.isDone
+            ? const TextStyle(
+                decoration: TextDecoration.lineThrough,
+                fontStyle: FontStyle.italic,
+              )
+            : null,
+      ),
+    );
   }
 }
