@@ -103,23 +103,6 @@ class _TodoListPageState extends State<TodoListPage> {
                       _items.map((todo) => _buildItemWidget(todo)).toList(),
                 ),
               ),
-              // Expanded(
-              //   child: TextField(
-              //     controller: _todoController,
-              //   ),
-              // ),
-              // ElevatedButton(
-              //   onPressed: (() => _addTodo(
-              //         Todo(_todoController.text),
-              //       )),
-              //   style: ElevatedButton.styleFrom(
-              //     backgroundColor: Colors.green,
-              //   ),
-              //   child: const Text(
-              //     '추가하기',
-              //     style: TextStyle(color: Colors.white10),
-              //   ),
-              // ),
             ],
           ),
         ));
