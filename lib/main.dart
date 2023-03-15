@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Todo {
   bool isDone = false;
   String title;
-  bool ischeckd = false;
+  bool isChecked = false;
 
   Todo(this.title);
 }
@@ -51,6 +51,7 @@ class _TodoListPageState extends State<TodoListPage> {
 
   void toggleTodo(Todo todo) {
     setState(() {
+      todo.isChecked = !todo.isChecked;
       todo.isDone = !todo.isDone;
     });
   }
@@ -110,24 +111,17 @@ class _TodoListPageState extends State<TodoListPage> {
 
   Widget _buildItemWidget(Todo todo) {
     return CheckboxListTile(
-      value: false,
-      onChanged: (bool? value) {},
+      value: todo.isChecked,
+      onChanged: (bool? value) {
+        toggleTodo(todo);
+      },
       controlAffinity: ListTileControlAffinity.leading,
-
-      // onTap: () => toggleTodo(todo),
-      // trailing: IconButton(
-      //   icon: const Icon(Icons.delete),
-      //   onPressed: ((() => _deleteTodo(todo))),
-      // ),
-      title: Text(
-        todo.title,
-        style: todo.isDone
-            ? const TextStyle(
-                decoration: TextDecoration.lineThrough,
-                fontStyle: FontStyle.italic,
-              )
-            : null,
-      ),
+      title: Text(todo.title,
+          style: TextStyle(
+            decoration: todo.isChecked
+                ? TextDecoration.lineThrough
+                : TextDecoration.none,
+          )),
     );
   }
 }
