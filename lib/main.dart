@@ -69,44 +69,58 @@ class _TodoListPageState extends State<TodoListPage> {
           title: const Text('남은 할  일'),
         ),
         body: Padding(
-          padding: const EdgeInsets.all(13),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _todoController,
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: (() => _addTodo(
-                          Todo(_todoController.text),
-                        )),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.amber,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+            padding: const EdgeInsets.all(13),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _todoController,
                       ),
                     ),
-                    child: const Text(
-                      '추가하기',
-                      style: TextStyle(
-                        color: Colors.white,
+                    ElevatedButton(
+                      onPressed: (() => _addTodo(
+                            Todo(_todoController.text),
+                          )),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.amber,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text(
+                        '추가하기',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: ListView(
-                  children:
-                      _items.map((todo) => _buildItemWidget(todo)).toList(),
+                  ],
                 ),
-              ),
-            ],
-          ),
-        ));
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: _items.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final todo = _items[index];
+
+                      return Dismissible(
+                        
+                        key: Key(todo.title),
+                        
+                        onDismissed: (direction) {
+                          _deleteTodo(todo);
+                        },
+                        
+                        background: Container(color: Colors.white10),
+                        child: _buildItemWidget(todo),
+                        
+                      );
+                    },
+                  ),
+                ),
+              ],
+            )));
   }
 
   Widget _buildItemWidget(Todo todo) {
@@ -123,7 +137,6 @@ class _TodoListPageState extends State<TodoListPage> {
                 : TextDecoration.none,
           )),
     );
-    
   }
 }
 
