@@ -105,16 +105,12 @@ class _TodoListPageState extends State<TodoListPage> {
                       final todo = _items[index];
 
                       return Dismissible(
-                        
                         key: Key(todo.title),
-                        
                         onDismissed: (direction) {
                           _deleteTodo(todo);
                         },
-                        
                         background: Container(color: Colors.white10),
                         child: _buildItemWidget(todo),
-                        
                       );
                     },
                   ),
