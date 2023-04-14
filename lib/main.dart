@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Todo {
   bool isDone = false;
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
 }
 
 class TodoListPage extends StatefulWidget {
-  const TodoListPage({super.key});
+  const TodoListPage({Key? key}) : super(key: key);
   @override
   State<TodoListPage> createState() => _TodoListPageState();
 }
@@ -35,17 +36,39 @@ class TodoListPage extends StatefulWidget {
 class _TodoListPageState extends State<TodoListPage> {
   final _items = <Todo>[];
   final _todoController = TextEditingController();
+  late SharedPreferences _prefs;
+
+ @override
+  void initState() {
+    super.initState();
+    _loadTodoList();
+  }
+
+  void _loadTodoList() async {
+    _prefs = await SharedPreferences.getInstance();
+    final todoList = _prefs.getStringList('todo_list');
+    if (todoList != null) {
+      setState(() {
+        _items.addAll(todoList.map((title) => Todo(title)));
+      });
+    }
+  }
 
   void _addTodo(Todo todo) {
     setState(() {
       _items.add(todo);
       _todoController.text = '';
+      _saveTodoList();
+
+      
     });
   }
 
   void _deleteTodo(Todo todo) {
     setState(() {
       _items.remove(todo);
+      _saveTodoList();
+
     });
   }
 
@@ -53,7 +76,13 @@ class _TodoListPageState extends State<TodoListPage> {
     setState(() {
       todo.isChecked = !todo.isChecked;
       todo.isDone = !todo.isDone;
+            _saveTodoList();
+
     });
+  }
+ void _saveTodoList() {
+    final todoList = _items.map((todo) => todo.title).toList();
+    _prefs.setStringList('todo_list', todoList);
   }
 
   @override
