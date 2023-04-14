@@ -38,7 +38,7 @@ class _TodoListPageState extends State<TodoListPage> {
   final _todoController = TextEditingController();
   late SharedPreferences _prefs;
 
- @override
+  @override
   void initState() {
     super.initState();
     _loadTodoList();
@@ -59,8 +59,6 @@ class _TodoListPageState extends State<TodoListPage> {
       _items.add(todo);
       _todoController.text = '';
       _saveTodoList();
-
-      
     });
   }
 
@@ -68,7 +66,6 @@ class _TodoListPageState extends State<TodoListPage> {
     setState(() {
       _items.remove(todo);
       _saveTodoList();
-
     });
   }
 
@@ -76,11 +73,11 @@ class _TodoListPageState extends State<TodoListPage> {
     setState(() {
       todo.isChecked = !todo.isChecked;
       todo.isDone = !todo.isDone;
-            _saveTodoList();
-
+      _saveTodoList();
     });
   }
- void _saveTodoList() {
+
+  void _saveTodoList() {
     final todoList = _items.map((todo) => todo.title).toList();
     _prefs.setStringList('todo_list', todoList);
   }
