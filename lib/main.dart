@@ -92,7 +92,11 @@ class _TodoListPageState extends State<TodoListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('남은 할  일'),
+          title: const Text(
+            'MyTodo',
+            style: TextStyle(color: Colors.white),
+          ),
+          centerTitle: true,
         ),
         body: Padding(
             padding: const EdgeInsets.all(13),
@@ -110,13 +114,13 @@ class _TodoListPageState extends State<TodoListPage> {
                             Todo(_todoController.text),
                           )),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amber,
+                        backgroundColor: Colors.lightBlueAccent,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(50),
                         ),
                       ),
                       child: const Text(
-                        '추가하기',
+                        '+',
                         style: TextStyle(
                           color: Colors.white,
                         ),
