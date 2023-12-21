@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.KIMHK.MyTodo">
+    package="com.example.hk_kim.MyTodo">
    <application
         android:label="flutter_application_1"
         android:name="${applicationName}"
